@@ -19,9 +19,9 @@ composer require xlitedev/filament-impersonate
 
 ### Add `Resource` action
 
-First open the resource where you want the impersonate action to appear. This is generally going to be your `UserResource` class.
+Open the resource where you want the impersonate action to appear. This is generally going to be your `UserResource` class.
 
-Go down to the `table` method. After defining the table columns, you want to `prependActions` and provide `Impersonate::make` as a new action for the table. Your class should look like this:
+Go down to the `table` method. Inside `actions` or  `prependActions` add `ImpersonateAction::make`  as a new action for the table. Your class should look like this:
 
 ```php
 namespace App\Filament\Resources;
