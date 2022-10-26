@@ -7,8 +7,6 @@
 
 
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
 ## Installation
 
 You can install the package via composer:
