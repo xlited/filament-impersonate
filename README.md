@@ -1,4 +1,7 @@
-# Filament Impersonate is a plugin that allows you to authenticate as your users.
+# Filament Impersonate
+
+Easily authenticate as your users
+
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/xlitedev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlitedev/filament-impersonate)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/xlitedev/filament-impersonate/run-tests?label=tests)](https://github.com/xlitedev/filament-impersonate/actions?query=workflow%3Arun-tests+branch%3Amain)
