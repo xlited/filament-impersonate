@@ -17,7 +17,7 @@ composer require xlitedev/filament-impersonate
 
 ## Usage
 
-### 1. Add `Resource` action
+### Add `Resource` action
 
 First open the resource where you want the impersonate action to appear. This is generally going to be your `UserResource` class.
 
@@ -42,11 +42,8 @@ class UserResource extends Resource {
             ]);
     }
 ```
-    
 
-### 3. Profit!
-
-That's it. You should now see an action icon next to each user in your Filament `UserResource` list:
+You should now see an action icon next to each user in your Filament `UserResource` list:
 
 <img width="1164" alt="CleanShot 2022-01-03 at 14 10 36@2x" src="https://user-images.githubusercontent.com/203749/147969981-01d18612-bc71-4503-89f6-a8e625ba2a5d.png">
 
