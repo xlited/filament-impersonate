@@ -1,13 +1,13 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace XliteDev\FilamentImpersonate;
 
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
-class SkeletonServiceProvider extends PluginServiceProvider
+class FilamentImpersonateServiceProvider extends PluginServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-impersonate';
 
     protected array $resources = [
         // CustomResource::class,
@@ -22,15 +22,15 @@ class SkeletonServiceProvider extends PluginServiceProvider
     ];
 
     protected array $styles = [
-        'plugin-skeleton' => __DIR__.'/../resources/dist/skeleton.css',
+        'plugin-filament-impersonate' => __DIR__.'/../resources/dist/filament-impersonate.css',
     ];
 
     protected array $scripts = [
-        'plugin-skeleton' => __DIR__.'/../resources/dist/skeleton.js',
+        'plugin-filament-impersonate' => __DIR__.'/../resources/dist/filament-impersonate.js',
     ];
 
     // protected array $beforeCoreScripts = [
-    //     'plugin-skeleton' => __DIR__ . '/../resources/dist/skeleton.js',
+    //     'plugin-filament-impersonate' => __DIR__ . '/../resources/dist/filament-impersonate.js',
     // ];
 
     public function configurePackage(Package $package): void
