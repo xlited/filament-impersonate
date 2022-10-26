@@ -27,6 +27,7 @@ $position = $position ?? config('filament-impersonate.banner.position');
         column-gap: 20px;
         justify-content: center;
         align-items: center;
+        z-index: 1000;
 
         @if($style == 'dark')
         background-color: #1f2937;
