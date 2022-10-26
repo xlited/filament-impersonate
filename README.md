@@ -46,11 +46,12 @@ class UserResource extends Resource {
 
 You should now see an action icon next to each user in your Filament `UserResource` list:
 
-<img width="1164" alt="CleanShot 2022-01-03 at 14 10 36@2x" src="https://user-images.githubusercontent.com/203749/147969981-01d18612-bc71-4503-89f6-a8e625ba2a5d.png">
+<img width="913" alt="image" src="https://user-images.githubusercontent.com/4498933/197991929-97c96c77-0f65-4b38-ac11-be46437f553a.png">
+
 
 When you click on the impersonate icon you will be logged in as that user, and redirected to your main app. You will see the impersonation banner at the top of the page, with a button to leave and return to Filament:
 
-![banner](https://user-images.githubusercontent.com/203749/112773267-5331b400-9003-11eb-85ae-b54c458fb5aa.png)
+<img width="873" alt="image" src="https://user-images.githubusercontent.com/4498933/197992176-1f782852-4f1e-419d-8257-d15ec69c33f5.png">
 
 
 ## Configuration
