@@ -1,6 +1,4 @@
-# Filament Impersonate
-
-Easily authenticate as your users
+# Filament Impersonate - Authenticate as your users
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/xlitedev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlitedev/filament-impersonate)
