@@ -75,6 +75,12 @@
             }
         }
     },
+    "funding": [
+        {
+            "url": "https://github.com/xlite-dev",
+            "type": "github"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
