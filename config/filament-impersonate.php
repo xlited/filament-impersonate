@@ -1,6 +1,6 @@
 <?php
 
-// config for XliteDev/FilamentImpersonate
+// config for xlite-dev/filament-impersonate
 return [
 
     // This is the guard used when logging in as the impersonated user.

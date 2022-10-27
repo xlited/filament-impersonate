@@ -1,12 +1,12 @@
 {
-    "name": "xlitedev/filament-impersonate",
+    "name": "xlite-dev/filament-impersonate",
     "description": "Filament Impersonate is a plugin that allows you to authenticate as your users.",
     "keywords": [
         "XliteDev",
         "laravel",
         "filament-impersonate"
     ],
-    "homepage": "https://github.com/xlitedev/filament-impersonate",
+    "homepage": "https://github.com/xlite-dev/filament-impersonate",
     "license": "MIT",
     "authors": [
         {

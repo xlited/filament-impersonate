@@ -1,10 +1,10 @@
 # Filament Impersonate - Authenticate as your users
 
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/xlitedev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlitedev/filament-impersonate)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/xlitedev/filament-impersonate/run-tests?label=tests)](https://github.com/xlitedev/filament-impersonate/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/xlitedev/filament-impersonate/Check%20&%20fix%20styling?label=code%20style)](https://github.com/xlitedev/filament-impersonate/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/xlitedev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlitedev/filament-impersonate)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/xlite-dev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlite-dev/filament-impersonate)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/xlite-dev/filament-impersonate/run-tests?label=tests)](https://github.com/xlite-dev/filament-impersonate/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/xlite-dev/filament-impersonate/Check%20&%20fix%20styling?label=code%20style)](https://github.com/xlite-dev/filament-impersonate/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/xlite-dev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlite-dev/filament-impersonate)
 
 
 
@@ -13,7 +13,7 @@
 You can install the package via composer:
 
 ```bash
-composer require xlitedev/filament-impersonate
+composer require xlite-dev/filament-impersonate
 ```
 
 ## Usage
