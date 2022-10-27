@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) XliteDev <icaliman92@gmail.com>
+Copyright (c) XliteDev <xlite.dev@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
