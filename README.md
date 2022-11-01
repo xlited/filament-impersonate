@@ -67,7 +67,7 @@ namespace App\Filament\Resources;
 use Filament\Resources\Resource;
 use XliteDev\FilamentImpersonate\Pages\Actions\ImpersonateAction; // <---
 
-class ViewUser extends ViewRecord
+class EditUser extends ViewRecord
 {
     // ...
 
@@ -79,6 +79,11 @@ class ViewUser extends ViewRecord
         ];
     }
 ```
+
+You should now see an action icon on the `EditUser` or `ViewUser` page:
+
+<img width="815" alt="image" src="https://user-images.githubusercontent.com/4498933/199262614-409142c1-c857-45e6-80ec-034d9cef9607.png">
+
 
 ## Configuration
 
