@@ -18,7 +18,7 @@ composer require xlite-dev/filament-impersonate
 
 ## Usage
 
-### Add `Resource` action
+### 1. Add `Table` action
 
 Open the resource where you want the impersonate action to appear. This is generally going to be your `UserResource` class.
 
@@ -28,9 +28,11 @@ Go down to the `table` method. Inside `actions` or  `prependActions` add `Impers
 namespace App\Filament\Resources;
 
 use Filament\Resources\Resource;
-use XliteDev\FilamentImpersonate\Tables\Actions\ImpersonateAction;
+use XliteDev\FilamentImpersonate\Tables\Actions\ImpersonateAction; // <---
 
 class UserResource extends Resource {
+    // ...
+
     public static function table(Table $table)
     {
         return $table
@@ -38,8 +40,8 @@ class UserResource extends Resource {
                 // ...
             ])
             ->actions([
+                ImpersonateAction::make(), // <--- 
                 // ...
-                ImpersonateAction::make('impersonate'), // <--- 
             ]);
     }
 ```
@@ -53,6 +55,30 @@ When you click on the impersonate icon you will be logged in as that user, and r
 
 <img width="873" alt="image" src="https://user-images.githubusercontent.com/4498933/197992176-1f782852-4f1e-419d-8257-d15ec69c33f5.png">
 
+### 2. Add `Page` action
+
+Open `EditUser` or `ViewUser` class, where you want the impersonate action to appear.
+
+Go down to the `getActions` method and add `ImpersonateAction::make` as a new action for the page. Your class should look like this:
+
+```php
+namespace App\Filament\Resources;
+
+use Filament\Resources\Resource;
+use XliteDev\FilamentImpersonate\Pages\Actions\ImpersonateAction; // <---
+
+class ViewUser extends ViewRecord
+{
+    // ...
+
+    protected function getActions(): array
+    {
+        return [
+            ImpersonateAction::make()->record($this->getRecord()), // <---
+            // ...
+        ];
+    }
+```
 
 ## Configuration
 
