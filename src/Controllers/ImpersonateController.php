@@ -1,28 +1,18 @@
 <?php
 
-namespace XliteDev\FilamentImpersonate;
+namespace XliteDev\FilamentImpersonate\Controllers;
 
 use Filament\Facades\Filament;
-use Filament\Tables\Actions\Action;
 use Illuminate\Http\RedirectResponse;
 use Lab404\Impersonate\Services\ImpersonateManager;
 use Livewire\Redirector;
 
-class ImpersonateAction extends Action
+class ImpersonateController
 {
-    protected function setUp(): void
+    public static function allowed($current, $target): bool
     {
-        parent::setUp();
+        // dd($current, $target);
 
-        $this
-            ->iconButton()
-            ->icon('filament-impersonate::icon')
-            ->action(fn ($record) => static::impersonate($record))
-            ->hidden(fn ($record) => ! static::allowed(Filament::auth()->user(), $record));
-    }
-
-    protected static function allowed($current, $target): bool
-    {
         return $current->isNot($target)
             && ! app(ImpersonateManager::class)->isImpersonating()
             && (! method_exists($current, 'canImpersonate') || $current->canImpersonate())

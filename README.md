@@ -28,7 +28,7 @@ Go down to the `table` method. Inside `actions` or  `prependActions` add `Impers
 namespace App\Filament\Resources;
 
 use Filament\Resources\Resource;
-use XliteDev\FilamentImpersonate\ImpersonateAction;
+use XliteDev\FilamentImpersonate\Tables\Actions\ImpersonateAction;
 
 class UserResource extends Resource {
     public static function table(Table $table)
