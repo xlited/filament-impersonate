@@ -48,12 +48,13 @@ class UserResource extends Resource {
 
 You should now see an action icon next to each user in your Filament `UserResource` list:
 
-<img width="913" alt="image" src="https://user-images.githubusercontent.com/4498933/197991929-97c96c77-0f65-4b38-ac11-be46437f553a.png">
+<img width="1157" alt="image" src="https://user-images.githubusercontent.com/4498933/199263982-132c225b-7b97-49d8-82ac-5dddf7377c95.png">
 
 
 When you click on the impersonate icon you will be logged in as that user, and redirected to your main app. You will see the impersonation banner at the top of the page, with a button to leave and return to Filament:
 
-<img width="873" alt="image" src="https://user-images.githubusercontent.com/4498933/197992176-1f782852-4f1e-419d-8257-d15ec69c33f5.png">
+<img width="1156" alt="image" src="https://user-images.githubusercontent.com/4498933/199263509-260eebe7-fca3-41fe-8be5-6a393715219e.png">
+
 
 ### 2. Add `Page` action
 
@@ -82,7 +83,9 @@ class EditUser extends ViewRecord
 
 You should now see an action icon on the `EditUser` or `ViewUser` page:
 
-<img width="815" alt="image" src="https://user-images.githubusercontent.com/4498933/199262614-409142c1-c857-45e6-80ec-034d9cef9607.png">
+<img width="1157" alt="image" src="https://user-images.githubusercontent.com/4498933/199263660-a6e32c39-270a-4406-a289-bb3859045732.png">
+
+
 
 
 ## Configuration
