@@ -11,8 +11,6 @@ class ImpersonateController
 {
     public static function allowed($current, $target): bool
     {
-        // dd($current, $target);
-
         return $current->isNot($target)
             && ! app(ImpersonateManager::class)->isImpersonating()
             && (! method_exists($current, 'canImpersonate') || $current->canImpersonate())

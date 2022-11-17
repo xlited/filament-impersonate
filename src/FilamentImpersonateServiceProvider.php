@@ -2,9 +2,11 @@
 
 namespace XliteDev\FilamentImpersonate;
 
+use Filament\Facades\Filament;
 use Filament\PluginServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Lab404\Impersonate\Services\ImpersonateManager;
 use Spatie\LaravelPackageTools\Package;
-use XliteDev\FilamentImpersonate\Middleware\ImpersonationBanner;
 
 class FilamentImpersonateServiceProvider extends PluginServiceProvider
 {
@@ -17,7 +19,21 @@ class FilamentImpersonateServiceProvider extends PluginServiceProvider
         $package->hasRoute('web');
 
         $package->hasViews('filament-impersonate');
+    }
 
-        $this->app['config']->push('filament.middleware.base', ImpersonationBanner::class);
+    public function packageBooted(): void
+    {
+        parent::packageBooted();
+
+        Filament::registerRenderHook(
+            'body.start',
+            function (): string {
+                if (! app(ImpersonateManager::class)->isImpersonating()) {
+                    return '';
+                }
+
+                return Blade::render('<x-filament-impersonate::banner />');
+            },
+        );
     }
 }
