@@ -11,30 +11,53 @@ $position = $position ?? config('filament-impersonate.banner.position');
 
 <style>
     html {
-        margin-{{ $position }}: 50px;
+        margin- {
+                {
+                $position
+            }
+        }
+
+        : 50px;
     }
 
-    body.filament-body > div.filament-app-layout > aside.filament-sidebar {
-        padding-{{ $position }}: 50px;
+    body.filament-body>div.filament-app-layout>aside.filament-sidebar {
+        padding- {
+                {
+                $position
+            }
+        }
+
+        : 50px;
     }
 
     #impersonate-banner {
-        position: {{ $fixed ? 'fixed' : 'absolute' }};
+        position: {
+                {
+                $fixed ? 'fixed': 'absolute'
+            }
+        }
+
+        ;
         height: 50px;
-        {{ $position }}: 0;
+
+            {
+                {
+                $position
+            }
+        }
+
+        : 0;
         width: 100%;
         display: flex;
         column-gap: 20px;
         justify-content: center;
         align-items: center;
-        z-index: 1000;
+        z-index: 39;
 
-        @if($style == 'dark')
-        background-color: #1f2937;
+        @if($style=='dark') background-color: #1f2937;
         color: #f3f4f6;
         border-bottom: 1px solid #374151;
-        @else
-        background-color: #f3f4f6;
+        @else background-color: #f3f4f6;
         color: #1f2937;
         @endif
     }
@@ -48,15 +71,15 @@ $position = $position ?? config('filament-impersonate.banner.position');
     }
 
     #impersonate-banner a:hover {
-        @if($style == 'dark')
-        background-color: #f3f4f6;
-        @else
-        background-color: #9ca3af;
+        @if($style=='dark') background-color: #f3f4f6;
+        @else background-color: #9ca3af;
         @endif
     }
 
-    @media print{
-        aside, body {
+    @media print {
+
+        aside,
+        body {
             margin-top: 0;
         }
 
