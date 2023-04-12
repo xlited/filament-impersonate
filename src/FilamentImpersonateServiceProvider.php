@@ -25,8 +25,13 @@ class FilamentImpersonateServiceProvider extends PluginServiceProvider
     {
         parent::packageBooted();
 
+        $renderHook = match (config('filament-impersonate.banner.position')) {
+            'top' => 'body.start',
+            default => 'body.end',
+        };
+
         Filament::registerRenderHook(
-            'body.start',
+            $renderHook,
             function (): string {
                 if (! app(ImpersonateManager::class)->isImpersonating()) {
                     return '';
