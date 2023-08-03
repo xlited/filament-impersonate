@@ -1,66 +1,64 @@
 {
     "name": "xlite-dev/filament-impersonate",
-    "description": "Filament Impersonate is a plugin that allows you to authenticate as your users.",
+    "description": "This is my package filament-impersonate",
     "keywords": [
         "XliteDev",
         "laravel",
         "filament-impersonate"
     ],
     "homepage": "https://github.com/xlite-dev/filament-impersonate",
+    "support": {
+        "issues": "https://github.com/xlite-dev/filament-impersonate/issues",
+        "source": "https://github.com/xlite-dev/filament-impersonate"
+    },
     "license": "MIT",
     "authors": [
         {
             "name": "Ion Caliman",
-            "email": "xlite.dev@gmail.com",
+            "email": "icaliman92@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "filament/filament": "^3.0",
-        "illuminate/contracts": "^9.0|^10.0",
+        "illuminate/contracts": "^10.0|^9.0",
         "lab404/laravel-impersonate": "^1.7",
-        "spatie/laravel-package-tools": "^1.13.5"
+        "spatie/laravel-package-tools": "^1.15.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
-        "nunomaduro/collision": "^6.0",
+        "nunomaduro/collision": "^7.9",
         "nunomaduro/larastan": "^2.0.1",
-        "orchestra/testbench": "^7.0",
-        "pestphp/pest": "^1.21",
-        "pestphp/pest-plugin-laravel": "^1.1",
-        "pestphp/pest-plugin-livewire": "^1.0",
-        "pestphp/pest-plugin-parallel": "^0.3",
+        "orchestra/testbench": "^8.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
-        "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5",
-        "spatie/laravel-ray": "^1.26"
+        "phpstan/phpstan-phpunit": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "XliteDev\\FilamentImpersonate\\": "src",
-            "XliteDev\\FilamentImpersonate\\Database\\Factories\\": "database/factories"
+            "XliteDev\\FilamentImpersonate\\": "src/",
+            "XliteDev\\FilamentImpersonate\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "XliteDev\\FilamentImpersonate\\Tests\\": "tests"
+            "XliteDev\\FilamentImpersonate\\Tests\\": "tests/"
         }
     },
     "scripts": {
-        "pint": "vendor/bin/pint",
-        "test:pest": "vendor/bin/pest --parallel",
-        "test:phpstan": "vendor/bin/phpstan analyse",
-        "test": [
-            "@test:pest",
-            "@test:phpstan"
-        ]
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
     },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "composer/package-versions-deprecated": true,
             "pestphp/pest-plugin": true,
             "phpstan/extension-installer": true
         }
@@ -75,12 +73,6 @@
             }
         }
     },
-    "funding": [
-        {
-            "url": "https://github.com/xlite-dev",
-            "type": "github"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

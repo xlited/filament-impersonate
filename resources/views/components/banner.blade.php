@@ -9,35 +9,48 @@
     @endphp
 
     <style>
-        html {
-            @if ($fixed)
+        body .fi-main-ctn {
+            @if ($fixed || $position == 'top')
                 @if ($position == 'top')
-                    margin-top: 50px;
+                    padding-top: 50px;
                 @else
-                    margin-bottom: 50px;
+                    padding-bottom: 50px;
                 @endif
             @endif
         }
 
-        body.filament-body>div.filament-app-layout>aside.filament-sidebar {
+        body .fi-topbar {
             @if ($position == 'top')
-                padding-top: 50px;
-            @else
-                padding-bottom: 50px;
+                top: 50px;
+            @endif
+        }
+
+        body>.fi-layout>aside {
+            @if ($fixed || $position == 'top')
+                @if ($position == 'top')
+                    padding-top: 50px;
+                @else
+                    padding-bottom: 50px;
+                @endif
             @endif
         }
 
         #impersonate-banner {
-            @if ($fixed)
+            @if ($fixed || $position == 'top')
                 position: fixed;
 
                 @if ($position == 'top')
                     top: 0;
+                    z-index: 39;
                 @else
-                    bottom: 0;
+                    @if ($position == 'bottom')
+                        z-index: 9;
+                        bottom: 0;
+                    @endif
                 @endif
             @else
                 position: relative;
+                z-index: 18;
             @endif
             height: 50px;
             width: 100%;
@@ -45,7 +58,6 @@
             column-gap: 20px;
             justify-content: center;
             align-items: center;
-            z-index: 39;
 
             @if ($style == 'dark')
                 background-color: #1f2937;

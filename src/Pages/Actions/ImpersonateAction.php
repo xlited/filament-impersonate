@@ -2,14 +2,14 @@
 
 namespace XliteDev\FilamentImpersonate\Pages\Actions;
 
+use Filament\Actions\Action;
 use Filament\Facades\Filament;
-use Filament\Pages\Actions\Action;
-use Filament\Support\Actions\Concerns\CanCustomizeProcess;
+// use Filament\Actions\Concerns\CanCustomizeProcess;
 use XliteDev\FilamentImpersonate\Controllers\ImpersonateController;
 
 class ImpersonateAction extends Action
 {
-    use CanCustomizeProcess;
+    // use CanCustomizeProcess;
 
     public static function getDefaultName(): ?string
     {
@@ -22,10 +22,10 @@ class ImpersonateAction extends Action
 
         $this->iconButton();
 
-        $this->icon('filament-impersonate::icon');
+        $this->icon('filament::impersonate-icon');
 
         $this->action(fn ($record) => ImpersonateController::impersonate($record));
 
-        $this->hidden(fn ($record) => ! ImpersonateController::allowed(Filament::auth()->user(), $record));
+        $this->hidden(fn ($record) => !ImpersonateController::allowed(Filament::auth()->user(), $record));
     }
 }

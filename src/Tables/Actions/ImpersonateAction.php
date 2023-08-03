@@ -19,10 +19,10 @@ class ImpersonateAction extends Action
 
         $this->iconButton();
 
-        $this->icon('filament-impersonate::icon');
+        $this->icon('filament::impersonate-icon');
 
         $this->action(fn ($record) => ImpersonateController::impersonate($record));
 
-        $this->hidden(fn ($record) => ! ImpersonateController::allowed(Filament::auth()->user(), $record));
+        $this->hidden(fn ($record) => !ImpersonateController::allowed(Filament::auth()->user(), $record));
     }
 }

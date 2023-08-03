@@ -1,8 +1,7 @@
 <?php
 
-// config for xlite-dev/filament-impersonate
+// config for XliteDev/FilamentImpersonate
 return [
-
     // This is the guard used when logging in as the impersonated user.
     'guard' => env('FILAMENT_IMPERSONATE_GUARD', 'web'),
 
@@ -21,7 +20,7 @@ return [
         // Turn this off if you want `absolute` positioning, so the banner scrolls out of view
         'fixed' => env('FILAMENT_IMPERSONATE_BANNER_FIXED', true),
 
-        // Currently supports 'top' and 'bottom'.
-        'position' => env('FILAMENT_IMPERSONATE_BANNER_POSITION', 'top'),
+        // Currently supports 'top', 'bottom', 'page-start' and 'page-end'.
+        'position' => env('FILAMENT_IMPERSONATE_BANNER_POSITION', 'bottom'),
     ],
 ];
