@@ -10,6 +10,7 @@ use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Facades\FilamentView;
 use Filament\Support\Icons\Icon;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Lab404\Impersonate\Services\ImpersonateManager;
@@ -68,10 +69,10 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
         );
 
         $renderHook = match (config('filament-impersonate.banner.position')) {
-            'top' => 'panels::body.start',
-            'bottom' => 'panels::body.end',
-            'page-start' => 'panels::page.start',
-            default => 'panels::page.end',
+            'top' => PanelsRenderHook::BODY_START,
+            'bottom' => PanelsRenderHook::BODY_END,
+            'page-start' => PanelsRenderHook::PAGE_START,
+            default => PanelsRenderHook::PAGE_END,
         };
 
         FilamentView::registerRenderHook(
