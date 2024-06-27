@@ -1,9 +1,9 @@
 # This is my package filament-impersonate
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/xlite-dev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlite-dev/filament-impersonate)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/xlite-dev/filament-impersonate/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/xlite-dev/filament-impersonate/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/xlite-dev/filament-impersonate/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/xlite-dev/filament-impersonate/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/xlite-dev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlite-dev/filament-impersonate)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/xlited/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlited/filament-impersonate)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/xlited/filament-impersonate/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/xlited/filament-impersonate/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/xlited/filament-impersonate/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/xlited/filament-impersonate/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/xlited/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlited/filament-impersonate)
 
 
 
@@ -14,7 +14,7 @@ This is where your description should go. Limit it to a paragraph or two. Consid
 You can install the package via composer:
 
 ```bash
-composer require xlite-dev/filament-impersonate
+composer require xlited/filament-impersonate
 ```
 
 You can publish and run the migrations with:

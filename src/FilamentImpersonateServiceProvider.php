@@ -35,7 +35,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
-                    ->askToStarRepoOnGitHub('xlite-dev/filament-impersonate');
+                    ->askToStarRepoOnGitHub('xlited/filament-impersonate');
             });
 
 
@@ -88,7 +88,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'xlite-dev/filament-impersonate';
+        return 'xlited/filament-impersonate';
     }
 
     /**

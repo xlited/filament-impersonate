@@ -1,15 +1,15 @@
 {
-    "name": "xlite-dev/filament-impersonate",
+    "name": "xlited/filament-impersonate",
     "description": "This is my package filament-impersonate",
     "keywords": [
         "XliteDev",
         "laravel",
         "filament-impersonate"
     ],
-    "homepage": "https://github.com/xlite-dev/filament-impersonate",
+    "homepage": "https://github.com/xlited/filament-impersonate",
     "support": {
-        "issues": "https://github.com/xlite-dev/filament-impersonate/issues",
-        "source": "https://github.com/xlite-dev/filament-impersonate"
+        "issues": "https://github.com/xlited/filament-impersonate/issues",
+        "source": "https://github.com/xlited/filament-impersonate"
     },
     "license": "MIT",
     "authors": [
