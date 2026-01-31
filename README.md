@@ -11,8 +11,15 @@
 You can install the package via composer:
 
 ```bash
-composer require xlite-dev/filament-impersonate
+composer require xlite-dev/filament-impersonate:^3.0
 ```
+
+## Compatibility
+
+| Package version | Filament version |
+|-----------------|------------------|
+| v2              | v3               |
+| v3              | v4, v5           |
 
 ## Usage
 
@@ -26,7 +33,7 @@ Go down to the `table` method. Inside `actions` or  `prependActions` add `Impers
 namespace App\Filament\Resources;
 
 use Filament\Resources\Resource;
-use XliteDev\FilamentImpersonate\Tables\Actions\ImpersonateAction; // <---
+use XliteDev\FilamentImpersonate\Actions\ImpersonateAction; // <---
 
 class UserResource extends Resource {
     // ...
@@ -64,7 +71,7 @@ Go down to the `getActions` method and add `ImpersonateAction::make` as a new ac
 namespace App\Filament\Resources;
 
 use Filament\Resources\Resource;
-use XliteDev\FilamentImpersonate\Pages\Actions\ImpersonateAction; // <---
+use XliteDev\FilamentImpersonate\Actions\ImpersonateAction; // <---
 
 class EditUser extends ViewRecord
 {

@@ -2,22 +2,16 @@
 
 namespace XliteDev\FilamentImpersonate;
 
-use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
-use Filament\Support\Facades\FilamentIcon;
 use Filament\Support\Facades\FilamentView;
 use Filament\Support\Icons\Icon;
 use Filament\View\PanelsRenderHook;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Lab404\Impersonate\Services\ImpersonateManager;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use XliteDev\FilamentImpersonate\Commands\FilamentImpersonateCommand;
 
 class FilamentImpersonateServiceProvider extends PackageServiceProvider
 {
@@ -39,7 +33,6 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
                     ->askToStarRepoOnGitHub('xlite-dev/filament-impersonate');
             });
 
-
         $package->hasConfigFile();
 
         $package->hasTranslations();
@@ -54,7 +47,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
         // Icon Registration
         $this->callAfterResolving(\BladeUI\Icons\Factory::class, function (\BladeUI\Icons\Factory $factory) {
             $factory->add('filament-impersonate-icons', [
-                'path' => __DIR__ . '/../resources/svg',
+                'path' => __DIR__.'/../resources/svg',
                 'prefix' => 'filament::impersonate',
             ]);
         });
@@ -78,7 +71,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
         FilamentView::registerRenderHook(
             $renderHook,
             function (): string {
-                if (!app(ImpersonateManager::class)->isImpersonating()) {
+                if (! app(ImpersonateManager::class)->isImpersonating()) {
                     return '';
                 }
 
@@ -97,11 +90,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
      */
     protected function getAssets(): array
     {
-        return [
-            // AlpineComponent::make('filament-impersonate', __DIR__ . '/../resources/dist/components/filament-impersonate.js'),
-            // Css::make('filament-impersonate-styles', __DIR__ . '/../resources/dist/filament-impersonate.css'),
-            // Js::make('filament-impersonate-scripts', __DIR__ . '/../resources/dist/filament-impersonate.js'),
-        ];
+        return [];
     }
 
     /**

@@ -26,6 +26,6 @@ class ImpersonateAction extends Action
 
         $this->action(fn ($record) => ImpersonateController::impersonate($record));
 
-        $this->hidden(fn ($record) => !ImpersonateController::allowed(Filament::auth()->user(), $record));
+        $this->authorize(fn ($record) => ImpersonateController::allowed(Filament::auth()->user(), $record));
     }
 }
