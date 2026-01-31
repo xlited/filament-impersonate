@@ -11,7 +11,7 @@
 You can install the package via composer:
 
 ```bash
-composer require xlite-dev/filament-impersonate
+composer require xlite-dev/filament-impersonate:^3.0
 ```
 
 ## Compatibility
