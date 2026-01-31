@@ -4,13 +4,10 @@ namespace XliteDev\FilamentImpersonate\Actions;
 
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
-// use Filament\Actions\Concerns\CanCustomizeProcess;
 use XliteDev\FilamentImpersonate\Controllers\ImpersonateController;
 
 class ImpersonateAction extends Action
 {
-    // use CanCustomizeProcess;
-
     public static function getDefaultName(): ?string
     {
         return 'impersonate';
