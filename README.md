@@ -14,6 +14,13 @@ You can install the package via composer:
 composer require xlite-dev/filament-impersonate
 ```
 
+## Compatibility
+
+| Package version | Filament version |
+|-----------------|------------------|
+| v2              | v3               |
+| v3              | v4, v5           |
+
 ## Usage
 
 ### 1. Add `Table` action
