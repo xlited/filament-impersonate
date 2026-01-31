@@ -2,6 +2,4 @@
 
 namespace XliteDev\FilamentImpersonate;
 
-class FilamentImpersonate
-{
-}
+class FilamentImpersonate {}
