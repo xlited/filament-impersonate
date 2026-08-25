@@ -1,16 +1,25 @@
 {
     "name": "packstub/filament-account-switcher",
-    "description": "Switch between accounts in Filament: impersonate users, linked sub-accounts, and developer logins.",
+    "description": "Switch between accounts in Filament: impersonate users, linked sub-accounts with password-confirmed escalation, and one-click developer logins.",
     "keywords": [
         "packstub",
         "laravel",
+        "filament",
+        "filament-plugin",
+        "filament-v5",
         "filament-account-switcher",
-        "filament-impersonate"
+        "filament-impersonate",
+        "impersonate",
+        "impersonation",
+        "linked-accounts",
+        "sub-accounts",
+        "developer-login"
     ],
     "homepage": "https://github.com/packstub/filament-account-switcher",
     "support": {
         "issues": "https://github.com/packstub/filament-account-switcher/issues",
-        "source": "https://github.com/packstub/filament-account-switcher"
+        "source": "https://github.com/packstub/filament-account-switcher",
+        "docs": "https://packstub.dev/docs/filament-account-switcher"
     },
     "license": "MIT",
     "authors": [
@@ -18,59 +27,50 @@
             "name": "Ion Caliman",
             "email": "icaliman92@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Packstub",
+            "email": "support@packstub.dev",
+            "homepage": "https://packstub.dev"
         }
     ],
     "require": {
-        "php": "^8.1",
-        "filament/filament": "^5.0|^4.0",
-        "illuminate/contracts": "^12.0|^11.0|^10.0|^9.0",
-        "lab404/laravel-impersonate": "^1.7",
+        "php": "^8.2",
+        "filament/filament": "^4.0 || ^5.0",
+        "illuminate/contracts": "^12.0 || ^13.0",
         "spatie/laravel-package-tools": "^1.92"
     },
     "require-dev": {
         "laravel/pint": "^1.27",
-        "nunomaduro/collision": "^8.8",
-        "nunomaduro/larastan": "^3.9",
-        "orchestra/testbench": "^10.0",
-        "pestphp/pest": "^4.0",
-        "pestphp/pest-plugin-arch": "^4.0",
-        "pestphp/pest-plugin-laravel": "^4.0",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan-deprecation-rules": "^2.0",
-        "phpstan/phpstan-phpunit": "^2.0"
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0"
     },
     "autoload": {
         "psr-4": {
-            "XliteDev\\FilamentImpersonate\\": "src/",
-            "XliteDev\\FilamentImpersonate\\Database\\Factories\\": "database/factories/"
+            "Packstub\\AccountSwitcher\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "XliteDev\\FilamentImpersonate\\Tests\\": "tests/"
+            "Packstub\\AccountSwitcher\\Tests\\": "tests/"
         }
     },
     "scripts": {
-        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "test": "phpunit -c phpunit.xml",
+        "test:filter": "phpunit -c phpunit.xml --filter",
+        "lint": "vendor/bin/pint",
+        "lint:test": "vendor/bin/pint --test"
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
-        }
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
             "providers": [
-                "XliteDev\\FilamentImpersonate\\FilamentImpersonateServiceProvider"
+                "Packstub\\AccountSwitcher\\AccountSwitcherServiceProvider"
             ],
             "aliases": {
-                "FilamentImpersonate": "XliteDev\\FilamentImpersonate\\Facades\\FilamentImpersonate"
+                "AccountSwitcher": "Packstub\\AccountSwitcher\\Facades\\AccountSwitcher"
             }
         }
     },

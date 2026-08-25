@@ -1,0 +1,49 @@
+name: Sync docs to packstub.dev
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs-sync.yml"
+
+concurrency:
+  group: docs-sync
+  cancel-in-progress: false
+
+jobs:
+  storefront:
+    name: Push docs/ to packstub/store (public docs)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout plugin repo
+        uses: actions/checkout@v4
+
+      - name: Set up deploy key for store repo
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.STORE_DEPLOY_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Clone store repo
+        run: git clone --depth 1 git@github.com:packstub/store.git /tmp/store
+
+      - name: Sync docs/ into resources/docs/filament-account-switcher/1.x/
+        run: |
+          mkdir -p /tmp/store/resources/docs/filament-account-switcher/1.x
+          rsync -a --delete docs/ /tmp/store/resources/docs/filament-account-switcher/1.x/
+
+      - name: Commit and push if changed
+        working-directory: /tmp/store
+        run: |
+          git config user.name "packstub-bot"
+          git config user.email "support@packstub.dev"
+          git add -A resources/docs/filament-account-switcher
+          if git diff --cached --quiet; then
+            echo "Storefront docs already up to date."
+          else
+            git commit -m "docs: sync filament-account-switcher from packstub/filament-account-switcher@${GITHUB_SHA::7}"
+            git push origin main
+          fi

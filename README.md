@@ -1,191 +1,74 @@
 # Filament Account Switcher
 
-
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
+[![Tests](https://img.shields.io/github/actions/workflow/status/packstub/filament-account-switcher/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/packstub/filament-account-switcher/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
 
+Switch between accounts in a Filament panel without signing out — safely, in production.
 
+- **Linked accounts** — work from a low-privilege account day to day and switch to your full admin account only when you need it. A "Switch to" menu in the topbar lists the accounts you've linked; switching *up* asks for that account's password, switching *down* is one click.
+- **Impersonation** — an `ImpersonateAction` for your user resource, a persistent banner with a "Switch back" button, and `canImpersonate()` / `canBeImpersonated()` hooks on your model.
+- **Developer logins** — one-click sign-in buttons on the login page for the accounts you seed locally. Never rendered outside the environments you allow.
+- **Audit trail** — every switch is recorded (who, to whom, why, panel, IP, user agent) and fires `AccountSwitching` / `AccountSwitched` events.
+
+Formerly `xlite-dev/filament-impersonate`. See [UPGRADE.md](UPGRADE.md) for the migration.
+
+## Requirements
+
+PHP 8.2+, Laravel 12 or 13, Filament 4 or 5.
 
 ## Installation
 
-You can install the package via composer:
-
 ```bash
 composer require packstub/filament-account-switcher
+php artisan packstub-account-switcher:install
 ```
 
-## Compatibility
-
-| Package version | Filament version |
-|-----------------|------------------|
-| v2              | v3               |
-| v3              | v4, v5           |
-
-## Usage
-
-### 1. Add `Table` action
-
-Open the resource where you want the impersonate action to appear. This is generally going to be your `UserResource` class.
-
-Go down to the `table` method. Inside `actions` or  `prependActions` add `ImpersonateAction::make`  as a new action for the table. Your class should look like this:
+Add the trait to your user model and the plugin to your panel:
 
 ```php
-namespace App\Filament\Resources;
+use Packstub\AccountSwitcher\Concerns\HasLinkedAccounts;
 
-use Filament\Resources\Resource;
-use XliteDev\FilamentImpersonate\Actions\ImpersonateAction; // <---
-
-class UserResource extends Resource {
-    // ...
-
-    public static function table(Table $table)
-    {
-        return $table
-            ->columns([
-                // ...
-            ])
-            ->actions([
-                ImpersonateAction::make(), // <--- 
-                // ...
-            ]);
-    }
-```
-
-You should now see an action icon next to each user in your Filament `UserResource` list:
-
-<img width="1157" alt="image" src="https://user-images.githubusercontent.com/4498933/199263982-132c225b-7b97-49d8-82ac-5dddf7377c95.png">
-
-
-When you click on the impersonate icon you will be logged in as that user, and redirected to your main app. You will see the impersonation banner at the top of the page, with a button to leave and return to Filament:
-
-<img width="1156" alt="image" src="https://user-images.githubusercontent.com/4498933/199263509-260eebe7-fca3-41fe-8be5-6a393715219e.png">
-
-
-### 2. Add `Page` action
-
-Open `EditUser` or `ViewUser` class, where you want the impersonate action to appear.
-
-Go down to the `getActions` method and add `ImpersonateAction::make` as a new action for the page. Your class should look like this:
-
-```php
-namespace App\Filament\Resources;
-
-use Filament\Resources\Resource;
-use XliteDev\FilamentImpersonate\Actions\ImpersonateAction; // <---
-
-class EditUser extends ViewRecord
+class User extends Authenticatable implements FilamentUser
 {
-    // ...
+    use HasLinkedAccounts;
 
-    protected function getActions(): array
+    public function canImpersonate(User $target): bool
     {
-        return [
-            ImpersonateAction::make()->record($this->getRecord()), // <---
-            // ...
-        ];
+        return $this->hasRole('super-admin');
     }
-```
-
-You should now see an action icon on the `EditUser` or `ViewUser` page:
-
-<img width="1157" alt="image" src="https://user-images.githubusercontent.com/4498933/199263660-a6e32c39-270a-4406-a289-bb3859045732.png">
-
-
-
-
-## Configuration
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="filament-impersonate-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-
-    // This is the guard used when logging in as the impersonated user.
-    'guard' => env('FILAMENT_IMPERSONATE_GUARD', 'web'),
-
-    // After impersonating this is where we'll redirect you to.
-    'redirect_to' => env('FILAMENT_IMPERSONATE_REDIRECT', '/'),
-
-    // We wire up a route for the "leave" button. You can change the middleware stack here if needed.
-    'leave_middlewares' => [
-        env('FILAMENT_IMPERSONATE_LEAVE_MIDDLEWARE', 'web'),
-    ],
-
-    'banner' => [
-        // Currently supports 'dark' and 'light'.
-        'style' => env('FILAMENT_IMPERSONATE_BANNER_STYLE', 'dark'),
-
-        // Turn this off if you want `absolute` positioning, so the banner scrolls out of view
-        'fixed' => env('FILAMENT_IMPERSONATE_BANNER_FIXED', true),
-
-        // Currently supports 'top' and 'bottom'.
-        'position' => env('FILAMENT_IMPERSONATE_BANNER_POSITION', 'top'),
-    ],
-];
-
-```
-
-## Authorization
-
-By default, only Filament admins can impersonate other users. You can control this by adding a `canImpersonate` method to your `FilamentUser` class:
-
-```php
-class User implements FilamentUser {
-    
-    public function canImpersonate()
-    {
-        return true;
-    }
-    
 }
 ```
 
-You can also control which targets can *be* impersonated. Just add a `canBeImpersonated` method to the user class with whatever logic you need:
+```php
+use Packstub\AccountSwitcher\AccountSwitcherPlugin;
+
+$panel->plugin(
+    AccountSwitcherPlugin::make()
+        ->developerLogins(['admin@example.com', 'user@example.com']),
+);
+```
+
+Then drop the action into your `UserResource` table:
 
 ```php
-class User {
+use Packstub\AccountSwitcher\Filament\Actions\ImpersonateAction;
 
-    public function canBeImpersonated()
-    {
-        // Let's prevent impersonating other users at our own company
-        return !Str::endsWith($this->email, '@mycorp.com');
-    }
-    
-}
-``` 
-
-## Customizing the banner
-
-You can publish the views using
-
-```bash
-php artisan vendor:publish --tag="filament-impersonate-views"
+->recordActions([
+    ImpersonateAction::make(),
+])
 ```
 
-The blade component has a few options you can customize.
+## Documentation
 
-### Style
+Full documentation lives at **[packstub.dev/docs/filament-account-switcher](https://packstub.dev/docs/filament-account-switcher)** and in the [`docs/`](docs/README.md) directory:
 
-The banner is dark by default, you can set this to light:
-
-```html
-<x-filament-impersonate::banner style='light'/>
-```
-
-### Display name
-
-The banner will show the name of the impersonated user, assuming there is a `name` attribute. You can customize this if needed:
-
-```html
-<x-filament-impersonate::banner :display='auth()->user()->email'/>
-```
-
+- [Installation](docs/installation.md)
+- [Linked accounts](docs/linked-accounts.md)
+- [Impersonation](docs/impersonation.md)
+- [Developer logins](docs/developer-logins.md)
+- [Configuration](docs/configuration.md)
+- [Security](docs/security.md)
 
 ## Testing
 
@@ -195,21 +78,17 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+See [CHANGELOG](CHANGELOG.md).
 
-## Contributing
+## Security vulnerabilities
 
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+Please e-mail [support@packstub.dev](mailto:support@packstub.dev) rather than opening a public issue.
 
 ## Credits
 
 - [Ion Caliman](https://github.com/icaliman)
-- [All Contributors](../../contributors)
+- [All contributors](../../contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+MIT. See [LICENSE.md](LICENSE.md).

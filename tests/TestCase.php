@@ -1,6 +1,6 @@
 <?php
 
-namespace XliteDev\FilamentImpersonate\Tests;
+namespace Packstub\AccountSwitcher\Tests;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
@@ -9,27 +9,30 @@ use Filament\FilamentServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Infolists\InfolistsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
 use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Packstub\AccountSwitcher\AccountSwitcherServiceProvider;
+use Packstub\AccountSwitcher\Tests\Fixtures\AdminPanelProvider;
+use Packstub\AccountSwitcher\Tests\Fixtures\User;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
-use XliteDev\FilamentImpersonate\FilamentImpersonateServiceProvider;
 
-class TestCase extends Orchestra
+abstract class TestCase extends Orchestra
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'XliteDev\\FilamentImpersonate\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
+        $this->migrate();
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             ActionsServiceProvider::class,
@@ -39,22 +42,69 @@ class TestCase extends Orchestra
             FilamentServiceProvider::class,
             FormsServiceProvider::class,
             InfolistsServiceProvider::class,
-            LivewireServiceProvider::class,
             NotificationsServiceProvider::class,
+            SchemasServiceProvider::class,
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            FilamentImpersonateServiceProvider::class,
+            // Real apps discover filament/* before livewire; Filament binds its DataStore
+            // override first and Livewire pins the shared instance. Keep that order.
+            LivewireServiceProvider::class,
+            AccountSwitcherServiceProvider::class,
+            AdminPanelProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineEnvironment($app): void
     {
-        config()->set('database.default', 'testing');
+        $app['config']->set('database.default', 'sqlite');
+        $app['config']->set('database.connections.sqlite', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
+        $app['config']->set('auth.providers.users.model', User::class);
+        $app['config']->set('app.key', 'base64:2fl+Ktv6fZ7c7ZQfF1Zt6Q0Wd9jz5bJ6rKq8nX0m3Yk=');
+        $app['config']->set('view.paths', [__DIR__.'/Fixtures/views']);
+    }
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_filament-impersonate_table.php.stub';
-        $migration->up();
-        */
+    protected function migrate(): void
+    {
+        Schema::create('users', function (Blueprint $table): void {
+            $table->id();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->boolean('is_admin')->default(false);
+            $table->boolean('can_access_panel')->default(true);
+            $table->rememberToken();
+            $table->timestamps();
+        });
+
+        foreach (['create_linked_accounts_table', 'create_account_switches_table'] as $migration) {
+            (include __DIR__."/../database/migrations/{$migration}.php.stub")->up();
+        }
+    }
+
+    /**
+     * @param  array<string, mixed>  $attributes
+     */
+    protected function createUser(array $attributes = []): User
+    {
+        static $sequence = 0;
+
+        $sequence++;
+
+        return User::query()->create([
+            'name' => "User {$sequence}",
+            'email' => "user{$sequence}@example.com",
+            'password' => Hash::make('secret'),
+            ...$attributes,
+        ]);
+    }
+
+    protected function createAdmin(array $attributes = []): User
+    {
+        return $this->createUser(['name' => 'Admin', 'is_admin' => true, ...$attributes]);
     }
 }
