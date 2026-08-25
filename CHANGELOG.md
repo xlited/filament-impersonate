@@ -2,7 +2,7 @@
 
 All notable changes to `packstub/filament-account-switcher` are documented here.
 
-## 4.0.0 — unreleased
+## 4.0.0 — 2026-08-25
 
 Renamed from `xlite-dev/filament-impersonate` and rebuilt around a shared session core. See [UPGRADE.md](UPGRADE.md).
 
