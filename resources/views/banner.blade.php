@@ -38,14 +38,33 @@
         color: {{ $dark ? '#111827' : '#f9fafb' }};
     }
 
-    body .fi-layout {
-        {{ $position === 'top' ? 'padding-top: 3rem;' : 'padding-bottom: 3rem;' }}
-    }
-
     @if ($position === 'top')
+        {{-- Push the whole shell down and re-anchor Filament's sticky elements below the banner.
+             v5 keeps the topbar in a sticky .fi-topbar-ctn outside .fi-layout; v4 has a sticky .fi-topbar inside it. --}}
+        body.fi-body {
+            padding-top: 3rem;
+        }
+
+        body .fi-topbar-ctn,
         body .fi-topbar,
         body .fi-sidebar {
             top: 3rem;
+        }
+
+        body .fi-sidebar {
+            height: calc(100dvh - 3rem);
+        }
+
+        {{-- Desktop (lg+) with a topbar: Filament sticks the sidebar at top: 4rem, height: calc(100dvh - 4rem). --}}
+        @media (min-width: 64rem) {
+            body.fi-body-has-topbar .fi-sidebar {
+                top: 7rem;
+                height: calc(100dvh - 7rem);
+            }
+        }
+    @else
+        body .fi-layout {
+            padding-bottom: 3rem;
         }
     @endif
 

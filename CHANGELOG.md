@@ -2,6 +2,12 @@
 
 All notable changes to `packstub/filament-account-switcher` are documented here.
 
+## Unreleased
+
+### Fixed
+
+- `banner(position: 'top')` no longer covers the panel topbar: the page shell is pushed down and Filament's sticky topbar container and sidebar are re-anchored below the banner (Filament 4 and 5 selectors).
+
 ## 4.0.1 — 2026-08-26
 
 ### Fixed
