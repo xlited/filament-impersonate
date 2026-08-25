@@ -30,7 +30,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
-                    ->askToStarRepoOnGitHub('xlite-dev/filament-impersonate');
+                    ->askToStarRepoOnGitHub('packstub/filament-account-switcher');
             });
 
         $package->hasConfigFile();
@@ -82,7 +82,7 @@ class FilamentImpersonateServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'xlite-dev/filament-impersonate';
+        return 'packstub/filament-account-switcher';
     }
 
     /**

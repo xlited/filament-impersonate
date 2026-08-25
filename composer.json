@@ -1,15 +1,16 @@
 {
-    "name": "xlite-dev/filament-impersonate",
-    "description": "This is my package filament-impersonate",
+    "name": "packstub/filament-account-switcher",
+    "description": "Switch between accounts in Filament: impersonate users, linked sub-accounts, and developer logins.",
     "keywords": [
-        "XliteDev",
+        "packstub",
         "laravel",
+        "filament-account-switcher",
         "filament-impersonate"
     ],
-    "homepage": "https://github.com/xlite-dev/filament-impersonate",
+    "homepage": "https://github.com/packstub/filament-account-switcher",
     "support": {
-        "issues": "https://github.com/xlite-dev/filament-impersonate/issues",
-        "source": "https://github.com/xlite-dev/filament-impersonate"
+        "issues": "https://github.com/packstub/filament-account-switcher/issues",
+        "source": "https://github.com/packstub/filament-account-switcher"
     },
     "license": "MIT",
     "authors": [

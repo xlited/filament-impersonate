@@ -1,8 +1,8 @@
-# Filament Impersonate - Authenticate as your users
+# Filament Account Switcher
 
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/xlite-dev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlite-dev/filament-impersonate)
-[![Total Downloads](https://img.shields.io/packagist/dt/xlite-dev/filament-impersonate.svg?style=flat-square)](https://packagist.org/packages/xlite-dev/filament-impersonate)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
+[![Total Downloads](https://img.shields.io/packagist/dt/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
 
 
 
@@ -11,7 +11,7 @@
 You can install the package via composer:
 
 ```bash
-composer require xlite-dev/filament-impersonate:^3.0
+composer require packstub/filament-account-switcher
 ```
 
 ## Compatibility
