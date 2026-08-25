@@ -33,6 +33,12 @@ AccountSwitcherPlugin::make()
     ->linkedAccountsPage(App\Filament\Pages\LinkedAccounts::class)
 ```
 
+### Banner placement
+
+`banner(position: 'top', style: 'light')` renders the impersonation banner at the top of the page in the light style; the default is a dark banner at the bottom.
+
+![The impersonation banner at the top of the page in the light style](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonation-banner-top-light.png)
+
 ### Feature toggles
 
 | Method | Default | Effect when off |

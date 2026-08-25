@@ -25,7 +25,7 @@ class ImpersonateAction extends Action
 
         $this->label(fn (): string => __('packstub-account-switcher::account-switcher.impersonate.label'));
 
-        $this->icon('packstub-account-switcher-icon');
+        $this->icon('packstub:account:switcher-icon');
 
         $this->iconButton();
 

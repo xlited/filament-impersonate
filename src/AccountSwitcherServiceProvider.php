@@ -37,7 +37,7 @@ class AccountSwitcherServiceProvider extends PackageServiceProvider
         $this->callAfterResolving(IconFactory::class, function (IconFactory $factory): void {
             $factory->add('packstub-account-switcher-icons', [
                 'path' => __DIR__.'/../resources/svg',
-                'prefix' => 'packstub-account-switcher',
+                'prefix' => 'packstub:account:switcher',
             ]);
         });
     }

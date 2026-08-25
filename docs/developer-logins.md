@@ -2,6 +2,8 @@
 
 One-click sign-in buttons under the login form, for the accounts you seed in development. Pick a user, land in the panel — no password typing while you build.
 
+![The login page with one-click developer login buttons under the form](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/developer-logins.png)
+
 ## Enabling
 
 Developer logins are **off** by default. Turn them on per panel and say which users appear:

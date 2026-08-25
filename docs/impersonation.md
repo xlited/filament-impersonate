@@ -4,6 +4,8 @@ Sign in as another user to see what they see, then switch back. Impersonation is
 
 ## The action
 
+![The Impersonate icon button on each row of the users table](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonate-action.png)
+
 `ImpersonateAction` works as a table record action or a page header action:
 
 ```php
@@ -62,12 +64,16 @@ AccountSwitcherPlugin::make()
 
 ## The banner
 
+![The impersonation banner at the bottom of the panel with a Switch back button](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonation-banner.png)
+
 While impersonating, a fixed banner reads *"You are signed in as Jane, impersonating from Admin"* with a **Switch back** button. It renders at the bottom of every panel page; move it to the top or switch to the light style:
 
 ```php
 AccountSwitcherPlugin::make()
     ->banner(position: 'top', style: 'light')
 ```
+
+![The banner at the top of the page in the light style](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonation-banner-top-light.png)
 
 To restyle it completely, publish the views and edit `resources/views/vendor/packstub-account-switcher/banner.blade.php`:
 

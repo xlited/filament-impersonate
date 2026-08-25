@@ -2,6 +2,12 @@
 
 All notable changes to `packstub/filament-account-switcher` are documented here.
 
+## 4.0.1 — 2026-08-26
+
+### Fixed
+
+- `ImpersonateAction` threw `SvgNotFound` at render time: the plugin's icon set was registered with a hyphenated prefix, which `blade-icons` cannot resolve. The icon is now `packstub:account:switcher-icon`.
+
 ## 4.0.0 — 2026-08-25
 
 Renamed from `xlite-dev/filament-impersonate` and rebuilt around a shared session core. See [UPGRADE.md](UPGRADE.md).
