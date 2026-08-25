@@ -1,111 +1,99 @@
 <?php
 
-namespace Packstub\AccountSwitcher\Tests\Feature;
-
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Packstub\AccountSwitcher\Facades\AccountSwitcher;
 use Packstub\AccountSwitcher\Filament\Livewire\AccountSwitcherMenu;
-use Packstub\AccountSwitcher\Tests\TestCase;
 
-class AccountSwitcherMenuTest extends TestCase
-{
-    public function test_menu_lists_linked_accounts_in_the_topbar(): void
-    {
-        $admin = $this->createAdmin();
-        $daily = $this->createUser(['name' => 'Daily Driver']);
-        $admin->linkAccount($daily, label: 'Daily');
+it('lists linked accounts in the topbar', function (): void {
+    $admin = createAdmin();
+    $daily = createUser(['name' => 'Daily Driver']);
+    $admin->linkAccount($daily, label: 'Daily');
 
-        $this->actingAs($admin);
+    $this->actingAs($admin);
 
-        $this->get('/admin')
-            ->assertOk()
-            ->assertSee('Switch to')
-            ->assertSee('Daily')
-            ->assertSee($daily->email)
-            ->assertSee('Manage linked accounts');
-    }
+    $this->get('/admin')
+        ->assertOk()
+        ->assertSee('Switch to')
+        ->assertSee('Daily')
+        ->assertSee($daily->email)
+        ->assertSee('Manage linked accounts');
+});
 
-    public function test_menu_is_hidden_without_linked_accounts(): void
-    {
-        $this->actingAs($this->createAdmin());
+it('is hidden without linked accounts', function (): void {
+    $this->actingAs(createAdmin());
 
-        $this->get('/admin')
-            ->assertOk()
-            ->assertDontSee('Switch to');
-    }
+    $this->get('/admin')
+        ->assertOk()
+        ->assertDontSee('Switch to');
+});
 
-    public function test_menu_is_hidden_while_impersonating(): void
-    {
-        $admin = $this->createAdmin();
-        $user = $this->createUser();
-        $userAdmin = $this->createAdmin();
-        $user->linkAccount($userAdmin, requiresPassword: false);
+it('is hidden while impersonating', function (): void {
+    $admin = createAdmin();
+    $user = createUser();
+    $userAdmin = createAdmin();
+    $user->linkAccount($userAdmin, requiresPassword: false);
 
-        $this->actingAs($admin);
-        AccountSwitcher::impersonate($user);
+    $this->actingAs($admin);
+    AccountSwitcher::impersonate($user);
 
-        $this->get('/admin')
-            ->assertOk()
-            ->assertDontSee('Switch to');
-    }
+    $this->get('/admin')
+        ->assertOk()
+        ->assertDontSee('Switch to');
+});
 
-    public function test_switching_without_password_requirement(): void
-    {
-        $admin = $this->createAdmin();
-        $daily = $this->createUser();
-        $admin->linkAccount($daily, requiresPassword: false);
+it('switches without a password requirement', function (): void {
+    $admin = createAdmin();
+    $daily = createUser();
+    $admin->linkAccount($daily, requiresPassword: false);
 
-        $this->actingAs($admin);
+    $this->actingAs($admin);
 
-        Livewire::test(AccountSwitcherMenu::class)
-            ->callAction('switch', arguments: ['account' => $daily->id])
-            ->assertRedirect('http://localhost/admin');
+    Livewire::test(AccountSwitcherMenu::class)
+        ->callAction('switch', arguments: ['account' => $daily->id])
+        ->assertRedirect('http://localhost/admin');
 
-        $this->assertTrue(Filament::auth()->user()->is($daily));
-    }
+    expect(Filament::auth()->user()->is($daily))->toBeTrue();
+});
 
-    public function test_switching_up_asks_for_the_target_password(): void
-    {
-        $admin = $this->createAdmin();
-        $daily = $this->createUser();
-        $daily->linkAccount($admin, requiresPassword: true);
+it('asks for the target password when switching up', function (): void {
+    $admin = createAdmin();
+    $daily = createUser();
+    $daily->linkAccount($admin, requiresPassword: true);
 
-        $this->actingAs($daily);
+    $this->actingAs($daily);
 
-        Livewire::test(AccountSwitcherMenu::class)
-            ->mountAction('switch', arguments: ['account' => $admin->id])
-            ->assertActionMounted('switch')
-            ->callMountedAction()
-            ->assertHasFormErrors(['password' => 'required']);
+    Livewire::test(AccountSwitcherMenu::class)
+        ->mountAction('switch', arguments: ['account' => $admin->id])
+        ->assertActionMounted('switch')
+        ->callMountedAction()
+        ->assertHasFormErrors(['password' => 'required']);
 
-        $this->assertTrue(Filament::auth()->user()->is($daily));
+    expect(Filament::auth()->user()->is($daily))->toBeTrue();
 
-        Livewire::test(AccountSwitcherMenu::class)
-            ->callAction('switch', ['password' => 'wrong'], ['account' => $admin->id])
-            ->assertNotified()
-            ->assertNoRedirect();
+    Livewire::test(AccountSwitcherMenu::class)
+        ->callAction('switch', ['password' => 'wrong'], ['account' => $admin->id])
+        ->assertNotified()
+        ->assertNoRedirect();
 
-        $this->assertTrue(Filament::auth()->user()->is($daily));
+    expect(Filament::auth()->user()->is($daily))->toBeTrue();
 
-        Livewire::test(AccountSwitcherMenu::class)
-            ->callAction('switch', ['password' => 'secret'], ['account' => $admin->id])
-            ->assertRedirect('http://localhost/admin');
+    Livewire::test(AccountSwitcherMenu::class)
+        ->callAction('switch', ['password' => 'secret'], ['account' => $admin->id])
+        ->assertRedirect('http://localhost/admin');
 
-        $this->assertTrue(Filament::auth()->user()->is($admin));
-    }
+    expect(Filament::auth()->user()->is($admin))->toBeTrue();
+});
 
-    public function test_unlinked_accounts_cannot_be_targeted(): void
-    {
-        $user = $this->createUser();
-        $other = $this->createUser();
+it('cannot target unlinked accounts', function (): void {
+    $user = createUser();
+    $other = createUser();
 
-        $this->actingAs($user);
+    $this->actingAs($user);
 
-        Livewire::test(AccountSwitcherMenu::class)
-            ->callAction('switch', arguments: ['account' => $other->id])
-            ->assertNoRedirect();
+    Livewire::test(AccountSwitcherMenu::class)
+        ->callAction('switch', arguments: ['account' => $other->id])
+        ->assertNoRedirect();
 
-        $this->assertTrue(Filament::auth()->user()->is($user));
-    }
-}
+    expect(Filament::auth()->user()->is($user))->toBeTrue();
+});

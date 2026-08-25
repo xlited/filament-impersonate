@@ -14,7 +14,6 @@ use Filament\Support\SupportServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -84,27 +83,5 @@ abstract class TestCase extends Orchestra
         foreach (['create_linked_accounts_table', 'create_account_switches_table'] as $migration) {
             (include __DIR__."/../database/migrations/{$migration}.php.stub")->up();
         }
-    }
-
-    /**
-     * @param  array<string, mixed>  $attributes
-     */
-    protected function createUser(array $attributes = []): User
-    {
-        static $sequence = 0;
-
-        $sequence++;
-
-        return User::query()->create([
-            'name' => "User {$sequence}",
-            'email' => "user{$sequence}@example.com",
-            'password' => Hash::make('secret'),
-            ...$attributes,
-        ]);
-    }
-
-    protected function createAdmin(array $attributes = []): User
-    {
-        return $this->createUser(['name' => 'Admin', 'is_admin' => true, ...$attributes]);
     }
 }

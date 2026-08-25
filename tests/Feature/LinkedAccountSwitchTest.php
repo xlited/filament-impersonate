@@ -1,125 +1,105 @@
 <?php
 
-namespace Packstub\AccountSwitcher\Tests\Feature;
-
 use Filament\Facades\Filament;
 use Packstub\AccountSwitcher\Enums\SwitchReason;
 use Packstub\AccountSwitcher\Exceptions\AccountSwitchDenied;
 use Packstub\AccountSwitcher\Facades\AccountSwitcher;
 use Packstub\AccountSwitcher\Models\AccountSwitch;
-use Packstub\AccountSwitcher\Tests\TestCase;
 
-class LinkedAccountSwitchTest extends TestCase
-{
-    public function test_linking_is_symmetric_and_idempotent(): void
-    {
-        $admin = $this->createAdmin();
-        $daily = $this->createUser();
+it('links symmetrically and idempotently', function (): void {
+    $admin = createAdmin();
+    $daily = createUser();
 
-        $admin->linkAccount($daily, label: 'Daily', requiresPassword: false);
-        $admin->linkAccount($daily, label: 'Daily work');
+    $admin->linkAccount($daily, label: 'Daily', requiresPassword: false);
+    $admin->linkAccount($daily, label: 'Daily work');
 
-        $this->assertTrue($admin->isLinkedTo($daily));
-        $this->assertTrue($daily->isLinkedTo($admin));
-        $this->assertSame(1, $admin->linkedAccounts()->count());
-        $this->assertSame('Daily work', $admin->linkedAccounts()->first()->pivot->label);
+    expect($admin->isLinkedTo($daily))->toBeTrue()
+        ->and($daily->isLinkedTo($admin))->toBeTrue()
+        ->and($admin->linkedAccounts()->count())->toBe(1)
+        ->and($admin->linkedAccounts()->first()->pivot->label)->toBe('Daily work');
 
-        $admin->unlinkAccount($daily);
+    $admin->unlinkAccount($daily);
 
-        $this->assertFalse($admin->isLinkedTo($daily));
-        $this->assertFalse($daily->isLinkedTo($admin));
-    }
+    expect($admin->isLinkedTo($daily))->toBeFalse()
+        ->and($daily->isLinkedTo($admin))->toBeFalse();
+});
 
-    public function test_switching_down_without_password_requirement(): void
-    {
-        $admin = $this->createAdmin();
-        $daily = $this->createUser();
-        $admin->linkAccount($daily, requiresPassword: false);
+it('switches down without a password requirement', function (): void {
+    $admin = createAdmin();
+    $daily = createUser();
+    $admin->linkAccount($daily, requiresPassword: false);
 
-        $this->actingAs($admin);
+    $this->actingAs($admin);
 
-        $this->assertFalse(AccountSwitcher::requiresPassword($admin, $daily));
+    expect(AccountSwitcher::requiresPassword($admin, $daily))->toBeFalse();
 
-        AccountSwitcher::switchToLinkedAccount($daily);
+    AccountSwitcher::switchToLinkedAccount($daily);
 
-        $this->assertTrue(Filament::auth()->user()->is($daily));
-        $this->assertFalse(AccountSwitcher::isImpersonating());
-        $this->assertSame(SwitchReason::LinkedAccount, AccountSwitch::query()->sole()->reason);
-    }
+    expect(Filament::auth()->user()->is($daily))->toBeTrue()
+        ->and(AccountSwitcher::isImpersonating())->toBeFalse()
+        ->and(AccountSwitch::query()->sole()->reason)->toBe(SwitchReason::LinkedAccount);
+});
 
-    public function test_switching_up_requires_the_target_password(): void
-    {
-        $admin = $this->createAdmin();
-        $daily = $this->createUser();
-        $daily->linkAccount($admin, requiresPassword: true);
+it('requires the target password when switching up', function (): void {
+    $admin = createAdmin();
+    $daily = createUser();
+    $daily->linkAccount($admin, requiresPassword: true);
 
-        $this->actingAs($daily);
+    $this->actingAs($daily);
 
-        $this->assertTrue(AccountSwitcher::requiresPassword($daily, $admin));
+    expect(AccountSwitcher::requiresPassword($daily, $admin))->toBeTrue();
 
-        try {
-            AccountSwitcher::switchToLinkedAccount($admin, 'wrong');
-            $this->fail('Expected the switch to be denied.');
-        } catch (AccountSwitchDenied) {
-        }
+    expect(fn () => AccountSwitcher::switchToLinkedAccount($admin, 'wrong'))
+        ->toThrow(AccountSwitchDenied::class);
 
-        $this->assertTrue(Filament::auth()->user()->is($daily));
+    expect(Filament::auth()->user()->is($daily))->toBeTrue();
 
-        AccountSwitcher::switchToLinkedAccount($admin, 'secret');
+    AccountSwitcher::switchToLinkedAccount($admin, 'secret');
 
-        $this->assertTrue(Filament::auth()->user()->is($admin));
-    }
+    expect(Filament::auth()->user()->is($admin))->toBeTrue();
+});
 
-    public function test_cannot_switch_to_an_unlinked_account(): void
-    {
-        $user = $this->createUser();
-        $other = $this->createUser();
+it('cannot switch to an unlinked account', function (): void {
+    $user = createUser();
+    $other = createUser();
 
-        $this->actingAs($user);
+    $this->actingAs($user);
 
-        $this->assertFalse(AccountSwitcher::canSwitchToLinkedAccount($user, $other));
+    expect(AccountSwitcher::canSwitchToLinkedAccount($user, $other))->toBeFalse();
 
-        $this->expectException(AccountSwitchDenied::class);
+    AccountSwitcher::switchToLinkedAccount($other, 'secret');
+})->throws(AccountSwitchDenied::class);
 
-        AccountSwitcher::switchToLinkedAccount($other, 'secret');
-    }
+it('cannot switch while impersonating', function (): void {
+    $admin = createAdmin();
+    $user = createUser();
+    $userAdmin = createAdmin();
+    $user->linkAccount($userAdmin, requiresPassword: false);
 
-    public function test_cannot_switch_while_impersonating(): void
-    {
-        $admin = $this->createAdmin();
-        $user = $this->createUser();
-        $userAdmin = $this->createAdmin();
-        $user->linkAccount($userAdmin, requiresPassword: false);
+    $this->actingAs($admin);
+    AccountSwitcher::impersonate($user);
 
-        $this->actingAs($admin);
-        AccountSwitcher::impersonate($user);
+    expect(AccountSwitcher::canSwitchToLinkedAccount($user, $userAdmin))->toBeFalse();
 
-        $this->assertFalse(AccountSwitcher::canSwitchToLinkedAccount($user, $userAdmin));
+    AccountSwitcher::switchToLinkedAccount($userAdmin);
+})->throws(AccountSwitchDenied::class);
 
-        $this->expectException(AccountSwitchDenied::class);
+it('cannot switch to an account without panel access', function (): void {
+    $user = createUser();
+    $locked = createUser(['can_access_panel' => false]);
+    $user->linkAccount($locked, requiresPassword: false);
 
-        AccountSwitcher::switchToLinkedAccount($userAdmin);
-    }
+    expect(AccountSwitcher::canSwitchToLinkedAccount($user, $locked))->toBeFalse();
+});
 
-    public function test_cannot_switch_to_an_account_without_panel_access(): void
-    {
-        $user = $this->createUser();
-        $locked = $this->createUser(['can_access_panel' => false]);
-        $user->linkAccount($locked, requiresPassword: false);
+it('lets the plugin gate deny switching', function (): void {
+    $user = createUser();
+    $other = createUser();
+    $user->linkAccount($other, requiresPassword: false);
 
-        $this->assertFalse(AccountSwitcher::canSwitchToLinkedAccount($user, $locked));
-    }
+    AccountSwitcher::plugin()->canSwitchUsing(fn (): bool => false);
 
-    public function test_plugin_gate_can_deny_switching(): void
-    {
-        $user = $this->createUser();
-        $other = $this->createUser();
-        $user->linkAccount($other, requiresPassword: false);
+    expect(AccountSwitcher::canSwitchToLinkedAccount($user, $other))->toBeFalse();
 
-        AccountSwitcher::plugin()->canSwitchUsing(fn (): bool => false);
-
-        $this->assertFalse(AccountSwitcher::canSwitchToLinkedAccount($user, $other));
-
-        AccountSwitcher::plugin()->canSwitchUsing(null);
-    }
-}
+    AccountSwitcher::plugin()->canSwitchUsing(null);
+});
