@@ -1,11 +1,15 @@
 # Filament Account Switcher
 
+<div class="filament-hidden">
+
 ![Filament Account Switcher — switch accounts, never sign out](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/art/banner.jpg)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
 [![Tests](https://img.shields.io/github/actions/workflow/status/packstub/filament-account-switcher/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/packstub/filament-account-switcher/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
 [![License](https://img.shields.io/packagist/l/packstub/filament-account-switcher.svg?style=flat-square)](LICENSE.md)
+
+</div>
 
 Switch between accounts in a Filament panel without signing out — safely, in production.
 
