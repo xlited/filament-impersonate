@@ -7,7 +7,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
 [![Tests](https://img.shields.io/github/actions/workflow/status/packstub/filament-account-switcher/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/packstub/filament-account-switcher/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
-[![License](https://img.shields.io/packagist/l/packstub/filament-account-switcher.svg?style=flat-square)](LICENSE.md)
+[![License](https://img.shields.io/packagist/l/packstub/filament-account-switcher.svg?style=flat-square)](https://github.com/packstub/filament-account-switcher/blob/main/LICENSE.md)
 
 </div>
 
@@ -15,14 +15,14 @@ Switch between accounts in a Filament panel without signing out — safely, in p
 
 ## Features
 
-- 🔀 **Linked accounts** — work from a low-privilege account day to day and switch to your full admin account only when you need it. A *Switch to* menu in the topbar lists the accounts you've linked; switching *up* asks for that account's password, switching *down* is one click.
-- 🕵️ **Impersonation** — an `ImpersonateAction` for your user resource, a persistent banner with a *Switch back* button, and `canImpersonate()` / `canBeImpersonated()` hooks on your model.
-- ⚡ **Developer logins** — one-click sign-in buttons on the login page for the accounts you seed locally. Never rendered outside the environments you allow.
-- 📜 **Audit trail** — every switch is recorded (who, to whom, why, panel, IP, user agent) and fires `AccountSwitching` / `AccountSwitched` events.
-- 🎛️ **Fluent plugin API** — turn each feature on or off per panel, add your own authorization rules, move the banner, replace the Linked accounts page.
-- 🌙 **Dark mode ready** · 🌍 **Translatable** — every string ships in a language file.
+- **[Linked accounts](#linked-accounts)** — work from a low-privilege account day to day and switch to your full admin account only when you need it. Switching *up* asks for that account's password; switching *down* is one click.
+- **[Impersonation](#impersonation)** — an `ImpersonateAction` for your user resource, a persistent banner with a *Switch back* button, and authorization hooks on your model.
+- **[Developer logins](#developer-logins)** — one-click sign-in buttons on the login page for the accounts you seed locally, never rendered outside the environments you allow.
+- **[Audit trail](https://packstub.dev/docs/filament-account-switcher/configuration#the-switch-log)** — every switch is recorded (who, to whom, why, panel, IP, user agent) and fires `AccountSwitching` / `AccountSwitched` events.
+- **[Fluent plugin API](#configuration)** — enable each feature per panel, add your own authorization rules, move the banner, replace the Linked accounts page.
+- **Dark mode ready** and **translatable** — built from Filament components, with every string in a language file.
 
-Formerly `xlite-dev/filament-impersonate`. See [UPGRADE.md](UPGRADE.md) for the migration.
+Formerly `xlite-dev/filament-impersonate` — see the [upgrade guide](https://github.com/packstub/filament-account-switcher/blob/main/UPGRADE.md).
 
 ## Compatibility
 
@@ -30,34 +30,6 @@ Formerly `xlite-dev/filament-impersonate`. See [UPGRADE.md](UPGRADE.md) for the 
 | --- | --- | --- | --- |
 | 4.x | 4.x, 5.x | 12.x, 13.x | 8.2+ |
 | 3.x (`xlite-dev/filament-impersonate`) | 4.x, 5.x | 9.x – 12.x | 8.1+ |
-
-## Screenshots
-
-### Linked accounts
-
-The *Switch to* menu lists the accounts you've linked. Going *down* to a lower-privilege account is one click; going *up* asks for the target account's password.
-
-![The Switch to menu](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/switch-to-menu.png)
-
-![Password confirmation when switching up](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/switch-password-modal.png)
-
-Manage links, labels and the per-link password rule from the Linked accounts page — or create a sub-account right there.
-
-![The Linked accounts page](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/linked-accounts-page.png)
-
-### Impersonation
-
-Drop `ImpersonateAction` into your users table. While impersonating, a banner stays visible with a *Switch back* button.
-
-![The Impersonate action in a users table](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonate-action.png)
-
-![The impersonation banner](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonation-banner.png)
-
-### Developer logins
-
-One-click sign-in for seeded accounts, only in the environments you allow.
-
-![Developer login buttons on the login page](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/developer-logins.png)
 
 ## Installation
 
@@ -91,7 +63,32 @@ $panel->plugin(
 );
 ```
 
-Then drop the action into your `UserResource` table:
+Full walkthrough: [Installation](https://packstub.dev/docs/filament-account-switcher/installation).
+
+## Linked accounts
+
+Link the accounts one person owns. A **Switch to** menu next to the user menu lists them with their label and e-mail.
+
+![The Switch to menu listing the linked accounts](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/switch-to-menu.png)
+
+Switching *down* to a lower-privilege account is one click. Switching *up* asks for the **target** account's password, so a compromised daily session can never reach the admin account on its own.
+
+![Switching up to the admin account asks for its password](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/switch-password-modal.png)
+
+The **Linked accounts** page (in the user menu) links an existing account, creates a sub-account, renames links and sets the per-link password rule.
+
+![The Linked accounts page](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/linked-accounts-page.png)
+
+```php
+// Or link programmatically — one click down, password up
+$admin->linkAccount($daily, label: 'Daily', requiresPassword: false);
+```
+
+Read more: [Linked accounts](https://packstub.dev/docs/filament-account-switcher/linked-accounts) · [Security model](https://packstub.dev/docs/filament-account-switcher/security).
+
+## Impersonation
+
+Drop `ImpersonateAction` into your users table or a page header. It is hidden for records the current user may not impersonate, based on `canImpersonate()` / `canBeImpersonated()` on your model.
 
 ```php
 use Packstub\AccountSwitcher\Filament\Actions\ImpersonateAction;
@@ -101,7 +98,28 @@ use Packstub\AccountSwitcher\Filament\Actions\ImpersonateAction;
 ])
 ```
 
-## Configuration at a glance
+![The Impersonate action on each row of the users table](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonate-action.png)
+
+While impersonating, a banner stays visible on every page with a **Switch back** button.
+
+![The impersonation banner with a Switch back button](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/impersonation-banner.png)
+
+Read more: [Impersonation](https://packstub.dev/docs/filament-account-switcher/impersonation).
+
+## Developer logins
+
+One-click sign-in for the accounts you seed, shown under the login form. They only render in the environments listed in the config (`local` by default), whatever the panel says.
+
+```php
+AccountSwitcherPlugin::make()
+    ->developerLogins(['admin@example.com', 'user@example.com'])
+```
+
+![Developer login buttons under the login form](https://raw.githubusercontent.com/packstub/filament-account-switcher/main/docs/images/developer-logins.png)
+
+Read more: [Developer logins](https://packstub.dev/docs/filament-account-switcher/developer-logins).
+
+## Configuration
 
 ```php
 AccountSwitcherPlugin::make()
@@ -114,16 +132,18 @@ AccountSwitcherPlugin::make()
     ->redirectTo('/admin')
 ```
 
+Read more: [Configuration](https://packstub.dev/docs/filament-account-switcher/configuration) — the config file, events, the switch log and the `AccountSwitcher` facade.
+
 ## Documentation
 
-Full documentation lives at **[packstub.dev/docs/filament-account-switcher](https://packstub.dev/docs/filament-account-switcher)** and in the [`docs/`](docs/README.md) directory:
+- [Installation](https://packstub.dev/docs/filament-account-switcher/installation)
+- [Linked accounts](https://packstub.dev/docs/filament-account-switcher/linked-accounts)
+- [Impersonation](https://packstub.dev/docs/filament-account-switcher/impersonation)
+- [Developer logins](https://packstub.dev/docs/filament-account-switcher/developer-logins)
+- [Configuration](https://packstub.dev/docs/filament-account-switcher/configuration)
+- [Security](https://packstub.dev/docs/filament-account-switcher/security)
 
-- [Installation](docs/installation.md)
-- [Linked accounts](docs/linked-accounts.md)
-- [Impersonation](docs/impersonation.md)
-- [Developer logins](docs/developer-logins.md)
-- [Configuration](docs/configuration.md)
-- [Security](docs/security.md)
+The same pages live in the [`docs/`](https://github.com/packstub/filament-account-switcher/tree/main/docs) directory of this repository.
 
 ## Testing
 
@@ -133,7 +153,7 @@ composer test
 
 ## Changelog
 
-See [CHANGELOG](CHANGELOG.md).
+See the [changelog](https://github.com/packstub/filament-account-switcher/blob/main/CHANGELOG.md).
 
 ## Security vulnerabilities
 
@@ -142,8 +162,8 @@ Please e-mail [support@packstub.dev](mailto:support@packstub.dev) rather than op
 ## Credits
 
 - [Ion Caliman](https://github.com/icaliman)
-- [All contributors](../../contributors)
+- [All contributors](https://github.com/packstub/filament-account-switcher/contributors)
 
 ## License
 
-MIT. See [LICENSE.md](LICENSE.md).
+MIT. See the [license file](https://github.com/packstub/filament-account-switcher/blob/main/LICENSE.md).
