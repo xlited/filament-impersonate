@@ -49,8 +49,16 @@ it('switches without a password requirement', function (): void {
 
     $this->actingAs($admin);
 
-    Livewire::test(AccountSwitcherMenu::class)
-        ->callAction('switch', arguments: ['account' => $daily->id])
+    $component = Livewire::test(AccountSwitcherMenu::class)
+        ->mountAction('switch', arguments: ['account' => $daily->id])
+        ->assertActionMounted('switch');
+
+    expect((string) $component->instance()->getMountedAction()->getModalDescription())
+        ->toContain('You will be signed in as')
+        ->not->toContain('password');
+
+    $component
+        ->callMountedAction()
         ->assertRedirect('http://localhost/admin');
 
     expect(Filament::auth()->user()->is($daily))->toBeTrue();

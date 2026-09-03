@@ -24,6 +24,11 @@ class LinkedAccount extends Pivot
 
     protected $guarded = [];
 
+    public function getConnectionName(): ?string
+    {
+        return $this->connection ?? AccountSwitcher::connectionName();
+    }
+
     public function getTable(): string
     {
         return config('packstub-account-switcher.tables.linked_accounts', 'linked_accounts');

@@ -34,14 +34,23 @@ class AccountSwitcherMenu extends Component implements HasActions, HasSchemas
             ->modalHeading(fn (array $arguments): string => __('packstub-account-switcher::account-switcher.menu.confirm_heading', [
                 'account' => $this->accountLabel($this->resolveAccount($arguments)),
             ]))
-            ->modalDescription(fn (): string => __('packstub-account-switcher::account-switcher.menu.confirm_description'))
+            ->modalDescription(function (array $arguments): string {
+                $account = $this->resolveAccount($arguments);
+
+                if ($account && ! $this->requiresPassword($account)) {
+                    return __('packstub-account-switcher::account-switcher.menu.confirm_description_no_password', [
+                        'account' => $this->accountLabel($account),
+                    ]);
+                }
+
+                return __('packstub-account-switcher::account-switcher.menu.confirm_description');
+            })
             ->modalSubmitActionLabel(fn (): string => __('packstub-account-switcher::account-switcher.menu.switch'))
             ->modalWidth('sm')
             ->schema(function (array $arguments): array {
                 $account = $this->resolveAccount($arguments);
-                $user = Filament::auth()->user();
 
-                if (! $account || ! $user || ! app(AccountSwitcher::class)->requiresPassword($user, $account)) {
+                if (! $account || ! $this->requiresPassword($account)) {
                     return [];
                 }
 
@@ -122,6 +131,13 @@ class AccountSwitcherMenu extends Component implements HasActions, HasSchemas
             'manageUrl' => $this->getManageUrl(),
             'plugin' => AccountSwitcherPlugin::get(),
         ]);
+    }
+
+    protected function requiresPassword(Model $account): bool
+    {
+        $user = Filament::auth()->user();
+
+        return ! $user || app(AccountSwitcher::class)->requiresPassword($user, $account);
     }
 
     /**

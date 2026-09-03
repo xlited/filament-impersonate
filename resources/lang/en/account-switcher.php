@@ -9,6 +9,7 @@ return [
         'password' => 'Password of the account you are switching to',
         'confirm_heading' => 'Switch to :account',
         'confirm_description' => 'Confirm you own this account by entering its password.',
+        'confirm_description_no_password' => 'You will be signed in as :account without leaving this session. You can switch back at any time.',
     ],
 
     'impersonate' => [

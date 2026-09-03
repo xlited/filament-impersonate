@@ -38,6 +38,23 @@ class AccountSwitcher
             ?? config('auth.providers.users.model');
     }
 
+    /**
+     * The connection the plugin's tables live on: the configured one, or
+     * the user model's own connection (null = the application default).
+     */
+    public static function connectionName(): ?string
+    {
+        $connection = config('packstub-account-switcher.connection');
+
+        if (filled($connection)) {
+            return $connection;
+        }
+
+        $userModel = static::userModel();
+
+        return $userModel ? (new $userModel)->getConnectionName() : null;
+    }
+
     public function plugin(): ?AccountSwitcherPlugin
     {
         $panel = Filament::getCurrentOrDefaultPanel();
