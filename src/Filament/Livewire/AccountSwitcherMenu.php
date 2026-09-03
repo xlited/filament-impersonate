@@ -10,6 +10,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Concerns\InteractsWithSchemas;
 use Filament\Schemas\Contracts\HasSchemas;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\Width;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -46,7 +48,9 @@ class AccountSwitcherMenu extends Component implements HasActions, HasSchemas
                 return __('packstub-account-switcher::account-switcher.menu.confirm_description');
             })
             ->modalSubmitActionLabel(fn (): string => __('packstub-account-switcher::account-switcher.menu.switch'))
-            ->modalWidth('sm')
+            ->modalWidth(Width::Medium)
+            ->modalAlignment(Alignment::Center)
+            ->modalFooterActionsAlignment(Alignment::Center)
             ->schema(function (array $arguments): array {
                 $account = $this->resolveAccount($arguments);
 
