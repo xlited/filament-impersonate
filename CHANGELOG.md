@@ -2,6 +2,13 @@
 
 All notable changes to `packstub/filament-account-switcher` are documented here.
 
+## 4.0.3 — 2026-09-03
+
+### Fixed
+
+- The switch log and the linked-accounts pivot were written on the default connection. With multi-database tenancy that is the tenant connection, where the tables do not exist (`no such table: account_switches`). Both models — and the migrations — now follow the user model's connection; a new `connection` config key pins it explicitly.
+- The switch confirmation modal for a link that does not require a password no longer asks for one in its description.
+
 ## 4.0.2 — 2026-08-26
 
 ### Fixed

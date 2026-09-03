@@ -11,7 +11,7 @@ return new class extends Migration
     {
         $userModel = AccountSwitcher::userModel();
 
-        Schema::create(config('packstub-account-switcher.tables.linked_accounts', 'linked_accounts'), function (Blueprint $table) use ($userModel): void {
+        Schema::connection(AccountSwitcher::connectionName())->create(config('packstub-account-switcher.tables.linked_accounts', 'linked_accounts'), function (Blueprint $table) use ($userModel): void {
             $table->id();
             $table->foreignIdFor($userModel, 'user_id')->constrained()->cascadeOnDelete();
             $table->foreignIdFor($userModel, 'linked_user_id')->constrained((new $userModel)->getTable())->cascadeOnDelete();
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('packstub-account-switcher.tables.linked_accounts', 'linked_accounts'));
+        Schema::connection(AccountSwitcher::connectionName())->dropIfExists(config('packstub-account-switcher.tables.linked_accounts', 'linked_accounts'));
     }
 };

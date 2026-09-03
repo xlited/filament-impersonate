@@ -1,10 +1,13 @@
 <?php
 
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use Packstub\AccountSwitcher\Enums\SwitchReason;
 use Packstub\AccountSwitcher\Exceptions\AccountSwitchDenied;
 use Packstub\AccountSwitcher\Facades\AccountSwitcher;
 use Packstub\AccountSwitcher\Models\AccountSwitch;
+use Packstub\AccountSwitcher\Tests\Fixtures\CentralUser;
 
 it('links symmetrically and idempotently', function (): void {
     $admin = createAdmin();
@@ -102,4 +105,44 @@ it('lets the plugin gate deny switching', function (): void {
     expect(AccountSwitcher::canSwitchToLinkedAccount($user, $other))->toBeFalse();
 
     AccountSwitcher::plugin()->canSwitchUsing(null);
+});
+
+it('keeps the switch log on the user model connection', function (): void {
+    // A second connection standing in for a tenant database: it becomes the
+    // default, as a multi-database tenancy package would make it mid-request.
+    config()->set('database.connections.tenant', [
+        'driver' => 'sqlite',
+        'database' => ':memory:',
+        'prefix' => '',
+    ]);
+    config()->set('database.default', 'tenant');
+    config()->set('packstub-account-switcher.user_model', CentralUser::class);
+
+    $admin = CentralUser::query()->create(['name' => 'Admin', 'email' => 'admin@central.test', 'password' => Hash::make('secret'), 'is_admin' => true]);
+    $daily = CentralUser::query()->create(['name' => 'Daily', 'email' => 'daily@central.test', 'password' => Hash::make('secret')]);
+    $admin->linkAccount($daily, requiresPassword: false);
+
+    $this->actingAs($admin);
+
+    expect(AccountSwitcher::connectionName())->toBe('sqlite')
+        ->and((new AccountSwitch)->getConnectionName())->toBe('sqlite');
+
+    AccountSwitcher::switchToLinkedAccount($daily);
+
+    expect(AccountSwitch::query()->count())->toBe(1)
+        ->and(Schema::connection('tenant')->hasTable('account_switches'))->toBeFalse();
+});
+
+it('pins the tables to the configured connection', function (): void {
+    config()->set('database.connections.audit', [
+        'driver' => 'sqlite',
+        'database' => ':memory:',
+        'prefix' => '',
+    ]);
+    config()->set('packstub-account-switcher.connection', 'audit');
+
+    (include __DIR__.'/../../database/migrations/create_account_switches_table.php.stub')->up();
+
+    expect((new AccountSwitch)->getConnectionName())->toBe('audit')
+        ->and(Schema::connection('audit')->hasTable('account_switches'))->toBeTrue();
 });

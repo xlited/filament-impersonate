@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Database connection
+    |--------------------------------------------------------------------------
+    |
+    | The connection the linked_accounts and account_switches tables live on.
+    | Leave null to use the user model's connection, so multi-database
+    | tenancy setups (e.g. a `CentralConnection` user model) keep both
+    | tables next to the users table instead of on the tenant connection.
+    |
+    */
+
+    'connection' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Tables
     |--------------------------------------------------------------------------
     */

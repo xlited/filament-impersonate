@@ -27,6 +27,11 @@ class AccountSwitch extends Model
 
     protected $guarded = [];
 
+    public function getConnectionName(): ?string
+    {
+        return $this->connection ?? AccountSwitcher::connectionName();
+    }
+
     public function getTable(): string
     {
         return config('packstub-account-switcher.tables.account_switches', 'account_switches');

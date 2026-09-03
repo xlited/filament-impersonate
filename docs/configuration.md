@@ -72,6 +72,10 @@ return [
     // null = config('auth.providers.users.model').
     'user_model' => null,
 
+    // The connection both tables live on.
+    // null = the user model's connection.
+    'connection' => null,
+
     'tables' => [
         'linked_accounts' => 'linked_accounts',
         'account_switches' => 'account_switches',
@@ -95,6 +99,10 @@ return [
 ### User model
 
 Linked accounts and the switch log are relationships on one user model. It is resolved from `user_model`, falling back to `auth.providers.users.model`. Set it **before** running the migrations — they derive the foreign keys and the referenced table from it.
+
+### Connection
+
+Both tables follow the user model's connection, so they always sit next to the `users` table. That is what a multi-database tenancy setup needs: a user model on a central connection keeps linked accounts and the switch log central, even while a request runs on a tenant connection. Set `connection` to pin them somewhere else. The migrations honour the same setting.
 
 ## The switch log
 

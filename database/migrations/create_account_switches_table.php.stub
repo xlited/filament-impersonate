@@ -12,7 +12,7 @@ return new class extends Migration
         $userModel = AccountSwitcher::userModel();
         $usersTable = (new $userModel)->getTable();
 
-        Schema::create(config('packstub-account-switcher.tables.account_switches', 'account_switches'), function (Blueprint $table) use ($userModel, $usersTable): void {
+        Schema::connection(AccountSwitcher::connectionName())->create(config('packstub-account-switcher.tables.account_switches', 'account_switches'), function (Blueprint $table) use ($userModel, $usersTable): void {
             $table->id();
             $table->foreignIdFor($userModel, 'from_user_id')->nullable()->constrained($usersTable)->nullOnDelete();
             $table->foreignIdFor($userModel, 'to_user_id')->constrained($usersTable)->cascadeOnDelete();
@@ -27,6 +27,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('packstub-account-switcher.tables.account_switches', 'account_switches'));
+        Schema::connection(AccountSwitcher::connectionName())->dropIfExists(config('packstub-account-switcher.tables.account_switches', 'account_switches'));
     }
 };
