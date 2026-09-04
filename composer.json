@@ -22,6 +22,12 @@
         "docs": "https://packstub.dev/docs/filament-account-switcher"
     },
     "license": "MIT",
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/icaliman"
+        }
+    ],
     "authors": [
         {
             "name": "Ion Caliman",

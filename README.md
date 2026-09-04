@@ -9,6 +9,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/packstub/filament-account-switcher.svg?style=flat-square)](https://packagist.org/packages/packstub/filament-account-switcher)
 [![License](https://img.shields.io/packagist/l/packstub/filament-account-switcher.svg?style=flat-square)](https://github.com/packstub/filament-account-switcher/blob/main/LICENSE.md)
 [![Listed on filamentphp.com](https://img.shields.io/badge/filamentphp.com-listed-fb7185?style=flat-square&logo=filament&logoColor=white)](https://filamentphp.com/plugins/packstub-account-switcher)
+[![Sponsor](https://img.shields.io/badge/sponsor-%E2%9D%A4-ea4aaa?style=flat-square&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/icaliman)
 
 </div>
 
