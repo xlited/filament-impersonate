@@ -19,4 +19,5 @@ composer lint               # Pint
 ## Conventions
 
 - PHP 8.3+, Pint, Pest; every change needs a test. Keep `CHANGELOG.md`/`UPGRADE.md` current.
+- Release = a `## <version>` heading in `CHANGELOG.md`, then a `v<version>` tag on `main`. `.github/workflows/github-release.yml` creates the GitHub release from that changelog section (manual run with a `tag` input for backfills) — no manual release step.
 - Listing assets/copy: use the `filament-plugin-listing` skill from the workspace root.
