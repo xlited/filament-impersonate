@@ -12,3 +12,7 @@ updates:
       default-days: 7
     labels:
       - "dependencies"
+    groups:
+      actions:
+        patterns:
+          - "*"
