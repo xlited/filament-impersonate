@@ -13,7 +13,7 @@ composer lint               # Pint
 ## Layout
 
 - `src/`, `config/`, `database/`, `resources/` — package code.
-- `docs/` customer docs; `docs/images/` screenshots produced from `../../demos/filament-account-switcher-demo/scripts/`.
+- `docs/` customer docs and `docs/images/` screenshots.
 - `art/` brand/listing art sources.
 
 ## Conventions
