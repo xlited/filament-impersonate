@@ -59,7 +59,7 @@ it('switches without a password requirement', function (): void {
 
     $component
         ->callMountedAction()
-        ->assertRedirect('http://localhost/admin');
+        ->assertRedirect(Filament::getPanel('admin')->getUrl());
 
     expect(Filament::auth()->user()->is($daily))->toBeTrue();
 });
@@ -88,7 +88,7 @@ it('asks for the target password when switching up', function (): void {
 
     Livewire::test(AccountSwitcherMenu::class)
         ->callAction('switch', ['password' => 'secret'], ['account' => $admin->id])
-        ->assertRedirect('http://localhost/admin');
+        ->assertRedirect(Filament::getPanel('admin')->getUrl());
 
     expect(Filament::auth()->user()->is($admin))->toBeTrue();
 });

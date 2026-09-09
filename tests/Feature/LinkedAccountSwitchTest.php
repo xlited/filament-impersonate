@@ -130,7 +130,7 @@ it('keeps the switch log on the user model connection', function (): void {
     AccountSwitcher::switchToLinkedAccount($daily);
 
     expect(AccountSwitch::query()->count())->toBe(1)
-        ->and(Schema::connection('tenant')->hasTable('account_switches'))->toBeFalse();
+        ->and(Schema::connection('tenant')->hasTable((new AccountSwitch)->getTable()))->toBeFalse();
 });
 
 it('pins the tables to the configured connection', function (): void {
@@ -144,5 +144,5 @@ it('pins the tables to the configured connection', function (): void {
     (include __DIR__.'/../../database/migrations/create_account_switches_table.php.stub')->up();
 
     expect((new AccountSwitch)->getConnectionName())->toBe('audit')
-        ->and(Schema::connection('audit')->hasTable('account_switches'))->toBeTrue();
+        ->and(Schema::connection('audit')->hasTable((new AccountSwitch)->getTable()))->toBeTrue();
 });

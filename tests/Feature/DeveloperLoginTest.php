@@ -28,7 +28,7 @@ it('signs in a listed user', function (): void {
     $dev = createUser(['email' => 'dev-alice@example.com']);
 
     $this->post(route('filament.admin.account-switcher.developer-login'), ['user' => $dev->id])
-        ->assertRedirect('http://localhost/admin');
+        ->assertRedirect(Filament::getPanel('admin')->getUrl());
 
     expect(Filament::auth()->user()->is($dev))->toBeTrue()
         ->and(AccountSwitch::query()->sole()->reason)->toBe(SwitchReason::DeveloperLogin);
